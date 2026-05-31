@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1f2e"/>
+      <stop offset="100%" style="stop-color:#0a0e17"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#818cf8"/>
+      <stop offset="100%" style="stop-color:#6366f1"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  <!-- Outer ring -->
+  <circle cx="256" cy="256" r="160" fill="none" stroke="url(#accent)" stroke-width="12" opacity="0.3"/>
+  <!-- Globe -->
+  <circle cx="256" cy="256" r="120" fill="none" stroke="url(#glow)" stroke-width="8"/>
+  <!-- Horizontal line -->
+  <line x1="136" y1="256" x2="376" y2="256" stroke="url(#glow)" stroke-width="6" stroke-linecap="round"/>
+  <!-- Vertical ellipse (meridian) -->
+  <ellipse cx="256" cy="256" rx="50" ry="120" fill="none" stroke="url(#glow)" stroke-width="6"/>
+  <!-- Second meridian -->
+  <ellipse cx="256" cy="256" rx="90" ry="120" fill="none" stroke="url(#accent)" stroke-width="4" opacity="0.4"/>
+  <!-- Top latitude -->
+  <ellipse cx="256" cy="196" rx="95" ry="20" fill="none" stroke="url(#accent)" stroke-width="4" opacity="0.5"/>
+  <!-- Bottom latitude -->
+  <ellipse cx="256" cy="316" rx="95" ry="20" fill="none" stroke="url(#accent)" stroke-width="4" opacity="0.5"/>
+  <!-- Center dot -->
+  <circle cx="256" cy="256" r="10" fill="url(#glow)"/>
+</svg>
