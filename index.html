@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VRChat Portal - Cross-Platform VRChat API Explorer</title>
+  <meta name="description" content="A comprehensive, self-hosted cross-platform app for exploring the VRChat API. Available for Windows, macOS, and web. Personal use only." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0a0e17;--bg-card:#131a24;--bg-elevated:#1a2332;--text:#f0f4f8;--text-secondary:#94a3b8;--text-muted:#64748b;--accent:#6366f1;--accent-hover:#818cf8;--accent-subtle:rgba(99,102,241,0.1);--success:#10b981;--warning:#f59e0b;--danger:#ef4444;--border:rgba(148,163,184,0.08);--radius:12px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+    a{color:var(--accent-hover);text-decoration:none;transition:color .2s}a:hover{color:var(--accent)}
+    .container{max-width:860px;margin:0 auto;padding:0 24px}
+    .hero{text-align:center;padding:100px 24px 60px;position:relative}
+    .hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(99,102,241,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-icon{width:72px;height:72px;margin:0 auto 24px;background:var(--accent-subtle);border-radius:20px;display:flex;align-items:center;justify-content:center}
+    .hero-icon svg{color:var(--accent-hover)}
+    .hero h1{font-size:2.8rem;font-weight:800;letter-spacing:-1.5px;margin-bottom:12px;background:linear-gradient(135deg,#f0f4f8 0%,#94a3b8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{font-size:1.1rem;color:var(--text-secondary);max-width:540px;margin:0 auto 32px}
+    .hero-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;font-size:.9rem;font-weight:600;font-family:inherit;border:none;cursor:pointer;transition:all .2s;text-decoration:none}
+    .btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.3)}.btn-primary:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 20px rgba(99,102,241,.4);color:#fff}
+    .btn-secondary{background:var(--bg-elevated);color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{background:var(--bg-card);border-color:rgba(148,163,184,.15);color:var(--text)}
+    .warning-banner{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-radius:var(--radius);padding:20px 24px;margin-bottom:48px;text-align:center}
+    .warning-banner strong{color:var(--danger);display:block;margin-bottom:6px}.warning-banner p{font-size:.88rem;color:var(--text-secondary)}
+    section{margin-bottom:56px}section h2{font-size:1.5rem;font-weight:700;letter-spacing:-.5px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    section h3{font-size:1.1rem;font-weight:600;margin:24px 0 10px}section p,section li{color:var(--text-secondary);font-size:.92rem}
+    section ul,section ol{padding-left:20px;margin:8px 0 16px}section li{margin-bottom:6px}
+    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:20px 0}
+    .feature-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:border-color .2s,transform .2s}
+    .feature-card:hover{border-color:rgba(148,163,184,.15);transform:translateY(-2px)}.feature-card h4{font-size:.9rem;font-weight:600;margin-bottom:6px}.feature-card p{font-size:.8rem;color:var(--text-muted);line-height:1.5}
+    code{background:var(--bg-elevated);padding:2px 7px;border-radius:5px;font-size:.82rem;font-family:'JetBrains Mono','Fira Code',monospace}
+    pre{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;overflow-x:auto;margin:12px 0 20px;font-size:.82rem;line-height:1.6;font-family:'JetBrains Mono','Fira Code',monospace;color:var(--text-secondary)}
+    .compliance-grid{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+    .compliance-item{display:flex;gap:14px;padding:14px 18px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);align-items:flex-start}
+    .compliance-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px}.compliance-item h4{font-size:.85rem;font-weight:600;margin-bottom:3px}.compliance-item p{font-size:.8rem;color:var(--text-muted)}
+    .tech-list{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.tech-tag{padding:6px 14px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:20px;font-size:.78rem;font-weight:500;color:var(--text-secondary)}
+    footer{text-align:center;padding:40px 24px;border-top:1px solid var(--border);margin-top:60px}footer p{font-size:.8rem;color:var(--text-muted);margin-bottom:4px}
+    @media(max-width:640px){.hero{padding:60px 16px 40px}.hero h1{font-size:2rem}.hero p{font-size:1rem}.container{padding:0 16px}.feature-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    </div>
+    <h1>VRChat Portal</h1>
+    <p>A comprehensive, self-hosted application for exploring the VRChat API. Available as a cross-platform desktop app or a local web tool.</p>
+    <div class="hero-buttons">
+      <a href="https://github.com/puppyonline/VRCPortal/releases" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Desktop App
+      </a>
+      <a href="https://github.com/puppyonline/VRCPortal" class="btn btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        View Source
+      </a>
+    </div>
+  </header>
+  <main class="container">
+    <div class="warning-banner">
+      <strong>Local Use Only - Use at Your Own Risk</strong>
+      <p>This application runs on your own machine, for your own VRChat account. Do not deploy publicly or use to authenticate others. VRChat does not officially support their API - endpoints may break without notice.</p>
+    </div>
+    <section>
+      <h2>What It Does</h2>
+      <p>VRChat Portal gives you a clean, modern interface to browse nearly every piece of data available through VRChat's API - users, worlds, groups, avatars, instances, friends, favorites, economy, inventory, notifications, moderation, and more. Run it as a desktop app or in your browser.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>Dashboard</h4><p>Live player count, API status, server time, build version, and announcements.</p></div>
+        <div class="feature-card"><h4>Profile</h4><p>Full profile view with presence, platform history, past names, status history, Steam integration.</p></div>
+        <div class="feature-card"><h4>Worlds &amp; Groups</h4><p>Search, browse, and view detailed info including active instances, members, roles, and posts.</p></div>
+        <div class="feature-card"><h4>Friends &amp; Social</h4><p>Online/offline lists, mutual counts, friend status, notifications, invites, and moderation.</p></div>
+        <div class="feature-card"><h4>Economy</h4><p>Balance, earnings, subscriptions, token bundles, purchases, store, and Tilia status.</p></div>
+        <div class="feature-card"><h4>Inventory</h4><p>Browse stickers, emojis, props, skins, effects, bundles, collections, and drops.</p></div>
+        <div class="feature-card"><h4>Avatars &amp; Instances</h4><p>Search avatars, look up instances by ID or short name, view recent locations.</p></div>
+        <div class="feature-card"><h4>Service Status</h4><p>Real-time status from status.vrchat.com with component groups and incident timelines.</p></div>
+      </div>
+    </section>
+    <section>
+      <h2>Tech Stack</h2>
+      <p>Zero runtime framework dependencies. Cross-platform desktop app powered by Electron.</p>
+      <div class="tech-list">
+        <span class="tech-tag">Vanilla JS</span><span class="tech-tag">Vite 5</span><span class="tech-tag">Electron 33</span><span class="tech-tag">Custom CSS</span><span class="tech-tag">Inter Font</span><span class="tech-tag">Auto-Updater</span><span class="tech-tag">200+ API Methods</span><span class="tech-tag">Windows + macOS</span><span class="tech-tag">Responsive</span>
+      </div>
+    </section>
+    <section>
+      <h2>Quick Start</h2>
+      <h3>Desktop App (Recommended)</h3>
+      <p style="margin-bottom:12px;">Download the latest release for your platform from the <a href="https://github.com/puppyonline/VRCPortal/releases">Releases page</a>. The Windows installer includes auto-updates.</p>
+      <h3>Web Mode</h3>
+      <pre>git clone https://github.com/puppyonline/VRCPortal.git
+cd VRCPortal
+npm install
+npm run dev</pre>
+      <p>Opens at <code>http://localhost:5173</code>. On first launch you'll be prompted to enter a contact email (required by VRChat's guidelines). Then log in and explore.</p>
+    </section>
+    <section>
+      <h2>VRChat API Compliance</h2>
+      <p>This project takes <a href="https://hello.vrchat.com/creator-guidelines#api-usage" target="_blank">VRChat's Creator Guidelines</a> seriously. Here's how each rule is addressed:</p>
+      <div class="compliance-grid">
+        <div class="compliance-item"><span class="compliance-icon">&#x2705;</span><div><h4>Proper Identification</h4><p>Every request includes <code>VRChatPortal/1.0.0 your@email.com</code> as the User-Agent. The app won't function until an email is configured.</p></div></div>
+        <div class="compliance-item"><span class="compliance-icon">&#x2705;</span><div><h4>Rate Limiting &amp; Caching</h4><p>Exponential backoff on 429s (up to 60s). In-memory TTL cache for stable data. No automated polling or fixed-interval requests.</p></div></div>
+        <div class="compliance-item"><span class="compliance-icon">&#x2705;</span><div><h4>No Content Upload</h4><p>All world/avatar/prop/file creation endpoints are disabled. The app is read-only for content assets.</p></div></div>
+        <div class="compliance-item"><span class="compliance-icon">&#x2705;</span><div><h4>No Credential Storage</h4><p>Passwords are used for a single auth request and immediately discarded. Session is VRChat's own cookie. Nothing is persisted.</p></div></div>
+        <div class="compliance-item"><span class="compliance-icon">&#x2705;</span><div><h4>Personal Use Only</h4><p>Designed for self-hosted, single-user operation. You authenticate your own account from your own device and IP.</p></div></div>
+        <div class="compliance-item"><span class="compliance-icon">&#x26A0;&#xFE0F;</span><div><h4>Authentication Limitation</h4><p>VRChat says "do not request credentials" but doesn't offer OAuth. This tool is for personal use only - you're authenticating yourself. Prominent warnings are displayed.</p></div></div>
+      </div>
+    </section>
+    <section>
+      <h2>Limitations &amp; Risks</h2>
+      <ul>
+        <li><strong>Unofficial API</strong> - VRChat does not document or support their API. Endpoints may change or break without notice.</li>
+        <li><strong>Account risk</strong> - Abuse of the API may result in account termination. Use responsibly.</li>
+        <li><strong>No official support</strong> - Do not contact VRChat support about API issues.</li>
+        <li><strong>Community-maintained</strong> - This project relies on <a href="https://vrchat.community" target="_blank">vrchat.community</a> documentation which is best-effort.</li>
+        <li><strong>Local only</strong> - Do not deploy publicly. Do not authenticate other people's accounts.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Links</h2>
+      <ul>
+        <li><a href="https://github.com/puppyonline/VRCPortal">GitHub Repository</a></li>
+        <li><a href="https://github.com/puppyonline/VRCPortal/releases">Releases &amp; Downloads</a></li>
+        <li><a href="https://vrchat.community">VRChat Community API Docs</a></li>
+        <li><a href="https://hello.vrchat.com/creator-guidelines#api-usage">VRChat Creator Guidelines</a></li>
+        <li><a href="https://status.vrchat.com">VRChat Service Status</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <p>VRChat Portal is not affiliated with or endorsed by VRChat Inc.</p>
+    <p>"VRChat" is a trademark of VRChat Inc. This is an independent community project.</p>
+    <p style="margin-top:8px;"><a href="https://github.com/puppyonline/VRCPortal">GitHub</a></p>
+  </footer>
+</body>
+</html>
